@@ -1,18 +1,22 @@
-import * as path from 'path';
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
+import zennv from 'zennv';
+import { z } from 'zod';
 
 class Config {
-	private readonly env: { [key: string]: string };
+	private env: any;
 
 	constructor() {
-		const envPath = path.join(__dirname, '../../.env');
-		this.env = dotenv.parse(fs.readFileSync(envPath));
+		this.env = zennv({
+			dotenv: true,
+			schema: z.object({
+				PORT: z.number(),
+				MONGO_URI: z.string(),
+			}),
+		});
 	}
 
-  get<T>(key: string): T {
-    return this.env[key] as unknown as T;
-  }
+	get<T>(key: string): T {
+		return this.env[key] as unknown as T;
+	}
 }
 
 export default new Config();
