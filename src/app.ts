@@ -17,7 +17,7 @@ app.get('/health', (_req: Request, res: Response) => {
 	res.status(200).json({ message: 'Server is running' });
 });
 
-app.use('/routes', products);
+app.use('/products', products);
 
 app.listen(PORT, async () => {
   logger.info(`Server is running on ${PORT}`);
